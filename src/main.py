@@ -1,5 +1,10 @@
+from textnode import TextNode, TextType
+
 def main():
-    print("Hello, World!")
+    # Example usage of TextNode
+    node = TextNode("Example link", TextType.LINK, "https://boot.dev")
+    print(node)
+
 
 if __name__ == "__main__":
     main()
