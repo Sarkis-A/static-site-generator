@@ -28,3 +28,4 @@ class LeafNode(HTMLNode):
             return f"{self.value}"
         else:
             return f"<{self.tag}>{self.value}</{self.tag}>"
+        
