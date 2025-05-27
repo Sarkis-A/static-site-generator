@@ -2,6 +2,7 @@ from enum import Enum
 from htmlnode import LeafNode
 
 class TextType(Enum):
+    TEXT = "Text"
     BOLD = "Bold"
     ITALIC = "Italic"
     CODE = "Code"
