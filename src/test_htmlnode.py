@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode, ParentNode
+from htmlnode import *
 
 class TestHTMLNode(unittest.TestCase):
     # Test checks if HTMLNode can be initialized with tag, value, children, and props

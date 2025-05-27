@@ -27,7 +27,19 @@ class LeafNode(HTMLNode):
         if self.tag is None:
             return f"{self.value}"
 
-        return f"<{self.tag}>{self.value}</{self.tag}>"
+        props_str = self.props_to_html()
+        if props_str:
+            props_str = " " + props_str
+        return f"<{self.tag}{props_str}>{self.value}</{self.tag}>"
+    
+    def __eq__(self, other):
+        if not isinstance(other, LeafNode):
+            return False
+        return (
+            self.tag == other.tag and
+            self.value == other.value and
+            self.props == other.props
+        )
 
 class ParentNode(HTMLNode):
     def __init__(self, tag: str, children: list, props: dict=None):
@@ -40,5 +52,9 @@ class ParentNode(HTMLNode):
         if not self.children or len(self.children) == 0:
             raise ValueError("ParentNode must have at least one child")
         
-        return f"<{self.tag}>" + "".join(child.to_html() for child in self.children) + f"</{self.tag}>"
+        props_str = self.props_to_html()
+        if props_str:
+            props_str = " " + props_str
+        return f"<{self.tag}{props_str}>" + "".join(child.to_html() for child in self.children) + f"</{self.tag}>"
+
         
