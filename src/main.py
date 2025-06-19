@@ -1,10 +1,8 @@
-from textnode import *
+from textnode import TextNode, TextType
 
 def main():
-    # Example usage of TextNode
-    node = TextNode("Example link", TextType.LINK, "https://boot.dev")
+    node = TextNode("This is a text node", TextType.BOLD, "https://www.boot.dev")
     print(node)
-    print(text_node_to_html_node(node))
 
 
 if __name__ == "__main__":
