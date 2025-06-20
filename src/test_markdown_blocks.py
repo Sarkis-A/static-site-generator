@@ -158,5 +158,55 @@ the **same** even with inline stuff
             "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
         )
 
+    def test_extract_title_basic(self):
+        md = """
+# My Awesome Title
+
+Some content here.
+"""
+        title = extract_title(md)
+        self.assertEqual(title, "My Awesome Title")
+
+    def test_extract_title_with_leading_spaces(self):
+        md = """
+
+#   Title With Spaces   
+
+Some content here.
+"""
+        title = extract_title(md)
+        self.assertEqual(title, "Title With Spaces")
+
+    def test_extract_title_first_header_only(self):
+        md = """
+# First Title
+
+## Subtitle
+
+# Second Title
+"""
+        title = extract_title(md)
+        self.assertEqual(title, "First Title")
+
+    def test_extract_title_no_title_raises(self):
+        md = """
+Some content here.
+
+## Subtitle
+"""
+        with self.assertRaises(Exception):
+            extract_title(md)
+
+    def test_extract_title_ignores_other_headers(self):
+        md = """
+## Not a title
+
+# The Real Title
+
+Some content here.
+"""
+        title = extract_title(md)
+        self.assertEqual(title, "The Real Title")
+
 if __name__ == "__main__":
     unittest.main()
