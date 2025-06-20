@@ -1,22 +1,15 @@
 import os
 import shutil
 
-def copy_static(static_dir="static", dest_dir="docs"):
-    """
-    Recursively copy all files and folders from static_dir to dest_dir.
-    This will delete all files/folders in dest_dir first!
-    """
-    # Delete all files and folders in dest_dir
-    if os.path.exists(dest_dir):
-        shutil.rmtree(dest_dir)
-    os.makedirs(dest_dir, exist_ok=True)
+def copy_files_recursive(source_dir_path, dest_dir_path):
+    if not os.path.exists(dest_dir_path):
+        os.mkdir(dest_dir_path)
 
-    # Recursively copy all files and folders from static_dir to dest_dir
-    for root, dirs, files in os.walk(static_dir):
-        rel_path = os.path.relpath(root, static_dir)
-        target_dir = os.path.join(dest_dir, rel_path) if rel_path != "." else dest_dir
-        os.makedirs(target_dir, exist_ok=True)
-        for file in files:
-            src_file = os.path.join(root, file)
-            dest_file = os.path.join(target_dir, file)
-            shutil.copy2(src_file, dest_file)
+    for filename in os.listdir(source_dir_path):
+        from_path = os.path.join(source_dir_path, filename)
+        dest_path = os.path.join(dest_dir_path, filename)
+        print(f" * {from_path} -> {dest_path}")
+        if os.path.isfile(from_path):
+            shutil.copy(from_path, dest_path)
+        else:
+            copy_files_recursive(from_path, dest_path)
