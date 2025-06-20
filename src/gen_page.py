@@ -29,3 +29,20 @@ def generate_page(from_path, template_path, dest_path):
     # Write to destination file
     with open(dest_path, 'w', encoding='utf-8') as f:
         f.write(page_content)
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for entry in os.scandir(dir_path_content):
+        if entry.is_dir():
+            # Recursively process subdirectories
+            generate_pages_recursive(
+                entry.path,
+                template_path,
+                os.path.join(dest_dir_path, entry.name)
+            )
+        elif entry.is_file() and entry.name.endswith('.md'):
+            # Compute relative path from content dir
+            rel_path = os.path.relpath(entry.path, dir_path_content)
+            # Change extension to .html
+            html_name = os.path.splitext(entry.name)[0] + '.html'
+            dest_path = os.path.join(dest_dir_path, html_name)
+            generate_page(entry.path, template_path, dest_path)
